@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serum Molecule Match</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="result-main-screen">
+    <div class="score bottom-banner">
+      <p class="" id="scoreDisplay"></p>
+      <a class="restart-button" href="index.html">Restart</a>
+    </div>
+  </div>
+  <script>
+    // Get the full URL
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Extract the score parameter from the URL
+    const score = urlParams.get('score');
+
+    // Display the score in an HTML element, e.g., with the id "scoreDisplay"
+    document.getElementById('scoreDisplay').textContent = 'You got ' + score + '!!!';
+
+  </script>
+</body>
+
+</html>

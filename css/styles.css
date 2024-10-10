@@ -1,0 +1,287 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body,
+html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+p {
+  color: white;
+}
+
+.tiles {
+  height: 100px;
+}
+
+.start-screen {
+  background-image: url('../img/bg/bg.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.game-screen {
+  background-image: url('../img/bg/bg.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 160px;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.result-main-screen {
+  background-image: url('../img/bg/res-banner.png');
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 160px;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.game-label {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.exp-screen {
+  background-image: url('../assets/start.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  width: 120px;
+  font-size: 1rem;
+  background-color: #f8ece5;
+}
+
+.timer {
+  padding: 10px;
+  border-radius: 20px;
+  color: black;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border: none;
+  width: 120px;
+  font-size: 1rem;
+  background-color: #f8ece5;
+}
+
+.start-button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #642b09;
+  color: white;
+  border: none;
+  text-decoration: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #4a1f06;
+}
+
+.game-board {
+  flex-grow: 1;
+  width: 90%;
+  max-width: 400px;
+  background-color: #f8ece5;
+  /* Same background as input fields */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 columns */
+  grid-template-rows: repeat(4, 1fr);
+  /* 4 rows */
+  gap: 10px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  width: 100%;
+  padding-top: 100%;
+  /* Maintain a square aspect ratio */
+  position: relative;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card.flip .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+.card-front {
+  background-color: #964B00;
+  /* Brown color for unflipped cards */
+}
+
+.card-back {
+  background-size: cover;
+  background-position: center;
+  transform: rotateY(180deg);
+}
+
+/* Result screen styles */
+.result-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: rgba(0, 0, 0, 0.8); */
+  background-image: url('../img/bg/banner.jpeg');
+  object-fit: contain;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  opacity: 0;
+  /* Invisible initially */
+  visibility: hidden;
+  /* Hide element from view initially */
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  /* Fade-in effect */
+  z-index: 1000;
+}
+
+.result-content {
+  text-align: center;
+}
+
+.result-score {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.result-image {
+  max-width: 200px;
+  margin-bottom: 20px;
+}
+
+.restart-button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #642b09;
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.restart-button:hover {
+  background-color: #4a1f06;
+}
+
+/* When the game ends, fade in the result screen */
+.show-result {
+  opacity: 1;
+  /* Fully visible */
+  visibility: visible;
+  /* Make the result screen visible */
+}
+
+#prize {
+  display: none;
+}
+
+.bottom-banner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.score {
+  padding: 20px;
+  border-radius: 20px;
+  color: black;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border: none;
+  width: 100%;
+  font-size: 3rem;
+  background-color: #f8ece5;
+}
+
+/* Add this CSS to your styles.css file */
+@keyframes colorChange {
+  0% { color: red; }
+  25% { color: orange; }
+  50% { color: yellow; }
+  75% { color: green; }
+  100% { color: blue; }
+}
+
+#scoreDisplay {
+  animation: colorChange 2s infinite;
+  font-weight: bold;
+}
