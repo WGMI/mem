@@ -262,15 +262,22 @@ p {
 }
 
 .score {
+  position: fixed;
+  bottom: 80px; /* Adjust the margin above the bottom */
+  margin-right: 10px;
+  left: 0;
+  width: 33.33%; /* One third of the screen's width */
   padding: 20px;
   color: black;
   font-weight: 700;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  background-image: url('../img/bg/result-box.png');
+  background-size: cover;
+  background-position: center;
   border: none;
-  width: 100%;
-  font-size: 3rem;
-  background-color: #f8ece5;
+  text-align: center;
 }
+
 
 /* Add this CSS to your styles.css file */
 @keyframes colorChange {
