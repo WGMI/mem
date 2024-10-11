@@ -39,8 +39,21 @@ function generateBoard() {
 
         card.addEventListener('click', flipCard);
         board.appendChild(card);
+
+        // Flip all cards initially to show images
+        setTimeout(() => {
+            card.classList.add('flip');
+        }, 0); // Immediately flip cards
     });
+
+    // Hide all cards after 2 seconds
+    setTimeout(() => {
+        document.querySelectorAll('.card').forEach(card => {
+            card.classList.remove('flip');
+        });
+    }, 2000); // 2000 ms = 2 seconds
 }
+
 
 function flipCard() {
     if (lockBoard) return;
