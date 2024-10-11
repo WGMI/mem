@@ -186,6 +186,7 @@ p {
 }
 
 .card-back {
+  background-image: url('../img/bg/star.png.png');
   background-size: cover;
   background-position: center;
   transform: rotateY(180deg);
@@ -262,7 +263,6 @@ p {
 
 .score {
   padding: 20px;
-  border-radius: 20px;
   color: black;
   font-weight: 700;
   margin-bottom: 10px;
