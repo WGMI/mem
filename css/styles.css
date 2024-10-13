@@ -37,7 +37,7 @@ p {
   background-position: center;
   display: flex;
   flex-direction: column;
-  padding-top: 160px;
+  padding-top: 60px;
   align-items: center;
   height: 100%;
   text-align: center;
@@ -125,38 +125,35 @@ p {
   background-color: #4a1f06;
 }
 
+/* Game Board */
 .game-board {
-  flex-grow: 1;
-  width: 90%;
+  width: 90vw; /* Set width to 90% of viewport width */
   max-width: 400px;
+  height: auto;
+  max-height: 70vh;
   background-color: #f8ece5;
-  /* Same background as input fields */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  /* 3 columns */
-  grid-template-rows: repeat(4, 1fr);
-  /* 4 rows */
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  grid-auto-rows: 1fr; /* Maintain equal height for each row */
   gap: 10px;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* Prevent any overflow */
+  box-sizing: border-box;
 }
 
+/* Card */
 .card {
-  width: 100%;
-  padding-top: 100%;
-  /* Maintain a square aspect ratio */
+  width: 100%; /* Let the card take up full width of the column */
+  aspect-ratio: 1; /* Maintain square aspect ratio */
   position: relative;
   perspective: 1000px;
   cursor: pointer;
 }
 
 .card-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   transition: transform 0.6s;
@@ -170,10 +167,6 @@ p {
 .card-front,
 .card-back {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
@@ -181,16 +174,16 @@ p {
 }
 
 .card-front {
-  background-color: #964B00;
-  /* Brown color for unflipped cards */
+  background-size: cover;
+  background-position: center;
 }
 
 .card-back {
-  background-image: url('../img/bg/star.png.png');
   background-size: cover;
   background-position: center;
   transform: rotateY(180deg);
 }
+
 
 /* Result screen styles */
 .result-screen {

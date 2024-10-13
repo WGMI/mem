@@ -1,180 +1,141 @@
 const images = [
-    'assets/1.png', 'assets/2.png', 'assets/3.png', 'assets/4.png', 'assets/5.png', 'assets/6.png',
-    'assets/1.png', 'assets/2.png', 'assets/3.png', 'assets/4.png', 'assets/5.png', 'assets/6.png'
+    { 
+        primary: 'assets/1.png', 
+        benefit: 'Hydration', 
+        hints: ['assets/hints/double-syrum.png', 'assets/hints/rejuvenation.png']
+    },
+    { 
+        primary: 'assets/2.png', 
+        benefit: 'Protection', 
+        hints: ['assets/hints/edelweiss.png', 'assets/hints/protection.png']
+    },
+    { 
+        primary: 'assets/3.png', 
+        benefit: 'Rejuvenation', 
+        hints: ['assets/hints/hang-qi.png', 'assets/hints/regeneration.png']
+    },
+    { 
+        primary: 'assets/4.png', 
+        benefit: 'Regeneration', 
+        hints: ['assets/hints/leaf-of-life.png', 'assets/hints/hydration.png']
+    },
+    { 
+        primary: 'assets/5.png', 
+        benefit: 'Protection', 
+        hints: ['assets/hints/marys-thistle.png', 'assets/hints/nutrition.png']
+    },
+    { 
+        primary: 'assets/6.png', 
+        benefit: 'Protection', 
+        hints: ['assets/hints/teasel.png', 'assets/hints/oxygenation.png']
+    }
 ];
 
+// Variables for tracking game state
+const gameBoard = document.getElementById('game-board');
+const starImage = 'assets/star.png';
 let firstCard, secondCard;
 let lockBoard = false;
-let hasFlippedCard = false;
-let matchesFound = 0;
-let timerStarted = false;
-let timeRemaining = 22.05; // 22.05 seconds for the game
-let timerInterval;
+let matchedPairs = 0;
 
-// Shuffle the images and generate the game board when the page loads
-window.onload = () => {
-    shuffleImages();
-    generateBoard();
-};
+// Step 1: Create an array to hold the paired cards with specific hints
+let pairedCards = [];
+images.forEach(item => {
+    // Create two card objects for each hint of the primary image
+    pairedCards.push({ primary: item.primary, hint: item.hints[0] });
+    pairedCards.push({ primary: item.primary, hint: item.hints[1] });
+});
 
-function shuffleImages() {
-    images.sort(() => Math.random() - 0.5);
-}
+// Step 2: Shuffle the pairedCards array
+const shuffledImages = pairedCards.sort(() => 0.5 - Math.random());
 
-function generateBoard() {
-    const board = document.querySelector('.game-board');
-    board.innerHTML = ''; // Clear any existing content
-
-    images.forEach((image, index) => {
+// Step 3: Create the game board based on shuffled pairs
+function createGameBoard() {
+    shuffledImages.forEach((item, index) => {
         const card = document.createElement('div');
         card.classList.add('card');
-        card.dataset.image = image;
+        card.dataset.index = index;
 
-        card.innerHTML = `
-        <div class="card-inner">
-          <div class="card-front"></div>
-          <div class="card-back" style="background-image: url('${image}')"></div>
-        </div>
-      `;
+        const cardInner = document.createElement('div');
+        cardInner.classList.add('card-inner');
+
+        // Front shows hint
+        const cardFront = document.createElement('div');
+        cardFront.classList.add('card-front');
+        cardFront.style.backgroundImage = `url(${item.hint})`;
+
+        // Back shows primary
+        const cardBack = document.createElement('div');
+        cardBack.classList.add('card-back');
+        cardBack.style.backgroundImage = `url(${item.primary})`;
+
+        cardInner.appendChild(cardFront);
+        cardInner.appendChild(cardBack);
+        card.appendChild(cardInner);
+        gameBoard.appendChild(card);
 
         card.addEventListener('click', flipCard);
-        board.appendChild(card);
-
-        // Flip all cards initially to show images
-        setTimeout(() => {
-            card.classList.add('flip');
-        }, 0); // Immediately flip cards
     });
-
-    // Hide all cards after 2 seconds
-    setTimeout(() => {
-        document.querySelectorAll('.card').forEach(card => {
-            card.classList.remove('flip');
-        });
-    }, 2000); // 2000 ms = 2 seconds
 }
 
 
+// Function to handle card flip
 function flipCard() {
-    if (lockBoard) return;
-    if (this === firstCard) return; // Prevent double click on the same card
-
-    if (!timerStarted) {
-        startTimer();
-        timerStarted = true;
-    }
+    if (lockBoard || this === firstCard) return;
 
     this.classList.add('flip');
+    console.log('Flipped card:', this);
 
-    if (!hasFlippedCard) {
-        // First card flipped
-        hasFlippedCard = true;
+    if (!firstCard) {
         firstCard = this;
         return;
     }
 
-    // Second card flipped
-    hasFlippedCard = false;
     secondCard = this;
-
     checkForMatch();
 }
 
-function checkForMatch() {
-    const isMatch = firstCard.dataset.image === secondCard.dataset.image;
 
+// Check if two flipped cards are a match
+function checkForMatch() {
+    const isMatch = shuffledImages[firstCard.dataset.index].primary === shuffledImages[secondCard.dataset.index].primary;
+    
     if (isMatch) {
+        // Matched, leave flipped
         disableCards();
-        matchesFound += 2; // Two cards matched
-        if (matchesFound === images.length) {
-            clearInterval(timerInterval);
-            showResultScreen('You win! All matches found.');
-        }
     } else {
-        unflipCards();
+        // Not a match, cover with star image
+        lockBoard = true;
+        setTimeout(() => {
+            firstCard.querySelector('.card-back').style.backgroundImage = `url(${starImage})`;
+            secondCard.querySelector('.card-back').style.backgroundImage = `url(${starImage})`;
+            resetBoard();
+        }, 1000);
     }
 }
 
+// Disable matched cards and increment matched pairs count
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
+    matchedPairs++;
+    
+    if (matchedPairs === images.length) {
+        setTimeout(showResultScreen, 500); // Game complete
+    }
     resetBoard();
 }
 
-function unflipCards() {
-    lockBoard = true;
-
-    setTimeout(() => {
-        firstCard.classList.remove('flip');
-        secondCard.classList.remove('flip');
-
-        resetBoard();
-    }, 750);
-}
-
+// Reset variables for next turn
 function resetBoard() {
-    [hasFlippedCard, lockBoard] = [false, false];
     [firstCard, secondCard] = [null, null];
+    lockBoard = false;
 }
 
-function startTimer() {
-    const timerElement = document.querySelector('.timer');
-    timerInterval = setInterval(() => {
-        timeRemaining -= 0.01; // Decrease time by 0.01 seconds (10 ms)
-        timerElement.textContent = timeRemaining.toFixed(2); // Update timer display
-
-        if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            showResultScreen(`You got ${matchesFound / 2}! Time ran out.`);
-        } 
-    }, 10); // Update the timer every 10 ms (0.01 seconds)
+// Show result screen at the end of the game
+function showResultScreen() {
+    document.querySelector('.result-screen').classList.add('show-result');
 }
 
-
-function resetGame() {
-    document.querySelectorAll('.card').forEach(card => {
-        card.classList.remove('flip');
-        card.addEventListener('click', flipCard);
-    });
-    matchesFound = 0;
-    timerStarted = false;
-    timeRemaining = 22.05;
-    document.querySelector('.timer').textContent = '22.05';
-    shuffleImages();
-}
-
-function showResultScreen(message) {
-    console.log(matchesFound);
-    window.location.href = ('result.html?score=' + (matchesFound / 2));
-    return
-    if((matchesFound / 2) >= 3){
-        console.log('prize');
-        document.getElementById('prize').style.display = 'inline';
-    }else{
-        console.log('try again');
-    }
-    // Display the result message and score
-    const resultScreen = document.querySelector('.result-screen');
-    const resultScore = document.querySelector('.result-score');
-    resultScore.textContent = message;
-
-    // Fade in the result screen by adding the show-result class
-    resultScreen.classList.add('show-result');
-}
-
-function restartGame() {
-    const resultScreen = document.querySelector('.result-screen');
-    resultScreen.classList.remove('show-result');
-
-    document.querySelectorAll('.card').forEach(card => {
-        card.classList.remove('flip');
-        card.addEventListener('click', flipCard);
-    });
-
-    matchesFound = 0;
-    timerStarted = false;
-    timeRemaining = 22.05;
-    document.querySelector('.timer').textContent = '22.05';
-    shuffleImages();
-}
-
+// Initialize game board
+createGameBoard();
