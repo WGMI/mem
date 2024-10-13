@@ -1,7 +1,7 @@
 const images = [
     { 
         primary: 'assets/4.png',  
-        hints: ['assets/hints/double-syrum.png', 'assets/hints/rejuvenation.png']
+        hints: ['assets/hints/double-syrum.png', 'assets/hints/boosts.jpeg']
     },
     { 
         primary: 'assets/5.png',  
@@ -24,6 +24,12 @@ const images = [
         hints: ['assets/hints/teasel.png', 'assets/hints/oxygenation.png']
     }
 ];
+
+// Set the initial timer values in seconds (22 minutes and 5 seconds)
+let totalTime = 22005;
+let matchesFound = 0;
+
+let isFirstFlip = true; // Track if this is the first flip to start the timer
 
 // Variables for tracking game state
 const gameBoard = document.getElementById('game-board');
@@ -80,6 +86,11 @@ function flipCard() {
     this.classList.add('flip');
     console.log('Flipped card:', this);
 
+    if (isFirstFlip) {
+        startTimer(); // Start the timer on the first card flip
+        isFirstFlip = false; // Ensure timer only starts once
+    }
+
     if (!firstCard) {
         firstCard = this;
         return;
@@ -113,9 +124,10 @@ function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
     matchedPairs++;
-    
+    matchesFound++; // Increment the number of matches found
+
     if (matchedPairs === images.length) {
-        setTimeout(showResultScreen, 500); // Game complete
+        setTimeout(showResultScreen, 500); // Game complete when all pairs are matched
     }
     resetBoard();
 }
@@ -128,8 +140,34 @@ function resetBoard() {
 
 // Show result screen at the end of the game
 function showResultScreen() {
-    document.querySelector('.result-screen').classList.add('show-result');
+    window.location.href = `result.html?score=${matchesFound}`;
 }
 
 // Initialize game board
 createGameBoard();
+
+// Function to start the countdown timer
+function startTimer() {
+    const timerElement = document.querySelector('.timer');
+
+    const countdown = setInterval(() => {
+        const seconds = Math.floor(totalTime / 1000);
+        const milliseconds = totalTime % 1000;
+
+        // Format and display the timer
+        timerElement.textContent = `${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(3, '0')}`;
+
+        // Check if time has run out
+        if (totalTime <= 0) {
+            clearInterval(countdown);
+            endGame(); // Call the function to handle game end
+        } else {
+            totalTime -= 5; // Decrement the timer by 5 milliseconds
+        }
+    }, 5);
+}
+
+// Function to handle the end of the game due to timer running out
+function endGame() {
+    window.location.href = `result.html?score=${matchesFound}`; // Navigate to result page with the score
+}
