@@ -24,7 +24,7 @@
         fwrite($file, $data);
         fclose($file);
 
-        $successMessage = "Thank you, $name! Your information has been saved.";
+        $successMessage = "Thank you, $name! Your information has been saved. <a href='explanation.html'>Start Playing</a>";
       } else {
         $successMessage = "Please enter both your name and email.";
       }
@@ -36,7 +36,7 @@
         <input type="text" id="name" name="name" placeholder="Name" class="input-field">
         <input type="email" id="email" name="email" placeholder="Email" class="input-field">
       </div>
-      <button type="submit" class="start-button">Start</button>
+      <button type="submit" class="start-button">Submit</button>
     </form>
 
     <?php if ($successMessage): ?>
