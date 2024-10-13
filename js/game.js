@@ -1,32 +1,26 @@
 const images = [
     { 
-        primary: 'assets/1.png', 
-        benefit: 'Hydration', 
+        primary: 'assets/4.png',  
         hints: ['assets/hints/double-syrum.png', 'assets/hints/rejuvenation.png']
     },
     { 
-        primary: 'assets/2.png', 
-        benefit: 'Protection', 
+        primary: 'assets/5.png',  
         hints: ['assets/hints/edelweiss.png', 'assets/hints/protection.png']
     },
     { 
-        primary: 'assets/3.png', 
-        benefit: 'Rejuvenation', 
+        primary: 'assets/6.png',  
         hints: ['assets/hints/hang-qi.png', 'assets/hints/regeneration.png']
     },
     { 
-        primary: 'assets/4.png', 
-        benefit: 'Regeneration', 
+        primary: 'assets/1.png',  
         hints: ['assets/hints/leaf-of-life.png', 'assets/hints/hydration.png']
     },
     { 
-        primary: 'assets/5.png', 
-        benefit: 'Protection', 
+        primary: 'assets/2.png',  
         hints: ['assets/hints/marys-thistle.png', 'assets/hints/nutrition.png']
     },
     { 
-        primary: 'assets/6.png', 
-        benefit: 'Protection', 
+        primary: 'assets/3.png',  
         hints: ['assets/hints/teasel.png', 'assets/hints/oxygenation.png']
     }
 ];
