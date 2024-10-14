@@ -50,6 +50,7 @@ images.forEach(item => {
 const shuffledImages = pairedCards.sort(() => 0.5 - Math.random());
 
 // Step 3: Create the game board based on shuffled pairs
+
 function createGameBoard() {
     shuffledImages.forEach((item, index) => {
         const card = document.createElement('div');
@@ -76,8 +77,18 @@ function createGameBoard() {
 
         card.addEventListener('click', flipCard);
     });
-}
 
+    // Show all cards for a half second initially
+    setTimeout(() => {
+        const allCards = document.querySelectorAll('.card');
+        allCards.forEach(card => card.classList.add('flip'));
+
+        // Flip all cards back after a half second
+        setTimeout(() => {
+            allCards.forEach(card => card.classList.remove('flip'));
+        }, 1500);
+    }, 100);
+}
 
 // Function to handle card flip
 function flipCard() {
