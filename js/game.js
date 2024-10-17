@@ -1,7 +1,7 @@
 const images = [
     { 
         primary: 'assets/4.png',  
-        hints: ['assets/hints/double-syrum.png', 'assets/hints/boosts.jpeg']
+        hints: ['assets/hints/double-syrum.jpeg', 'assets/hints/boosts.jpeg']
     },
     { 
         primary: 'assets/5.png',  

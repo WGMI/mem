@@ -44,8 +44,9 @@ p {
 }
 
 .result-main-screen {
-  background-image: url('../img/bg/res-banner.png');
-  background-size: contain;
+  background-image: url('../img/bg/res-banner.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
   display: flex;
   flex-direction: column;
@@ -256,11 +257,11 @@ p {
 
 .score {
   position: fixed;
-  bottom: 80px; /* Adjust the margin above the bottom */
-  margin-right: 10px;
+  bottom: 20px; /* Adjust the margin above the bottom */
+  /* margin-right: 200px; */
   left: 0;
-  width: 33.33%; /* One third of the screen's width */
-  padding: 20px;
+  width: 100%; /* One third of the screen's width */
+  padding: 15px;
   color: black;
   font-weight: 700;
   font-size: 1.2rem;
